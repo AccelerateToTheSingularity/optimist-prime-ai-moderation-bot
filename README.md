@@ -8,7 +8,7 @@ Runs on GitHub Actions on a schedule (when enabled), polling Reddit and performi
 
 ## Stats dashboard
 
-**Live stats:** [https://acceleratetothesingularity.github.io/Optimist/](https://acceleratetothesingularity.github.io/Optimist/)
+**Live stats:** [https://acceleratetothesingularity.github.io/optimist-prime-ai-moderation-bot/](https://acceleratetothesingularity.github.io/optimist-prime-ai-moderation-bot/)
 
 ## Public repository policy
 

@@ -34,4 +34,4 @@ AI-powered community assistant for [r/accelerate](https://www.reddit.com/r/accel
 
 ---
 
-[Live stats dashboard](https://acceleratetothesingularity.github.io/Optimist/) · [Source code](https://github.com/AccelerateToTheSingularity/optimist-prime-ai-moderation-bot)
+[Live stats dashboard](https://acceleratetothesingularity.github.io/optimist-prime-ai-moderation-bot/) · [Source code](https://github.com/AccelerateToTheSingularity/optimist-prime-ai-moderation-bot)
