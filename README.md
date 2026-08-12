@@ -1,15 +1,16 @@
 # Optimist Prime AI Moderation Bot
 
-**Optimist Prime is an actively developed, open-source AI moderation and community-management platform.**
-Originally built for [r/accelerate](https://www.reddit.com/r/accelerate/), it combines AI-assisted moderation with community utilities such as summaries, conversations, flairs, and crossposts.
-It is designed around the practical demands of a large, high-traffic community today, with a longer-term goal of becoming a configurable platform other online communities can deploy for their own moderation and community-management workflows.
+**Optimist Prime is an open-source AI bot built to moderate and help run [r/accelerate](https://www.reddit.com/r/accelerate/).**
+It helps moderators review content and gives the community TLDRs, thread summaries, replies, flairs, and other useful tools.
+
+It is being developed for a busy, live community.
+The aim is to turn what works there into a configurable tool that other communities can use too.
 
 **[Explore current features](FEATURES.md)** · **[View the live statistics dashboard](https://acceleratetothesingularity.github.io/optimist-prime-ai-moderation-bot/)** · **[MIT License](LICENSE)**
 
-## Real-world deployment context
+## Built for a busy community
 
-Optimist Prime is being developed and tested for the operational realities of r/accelerate—not as a toy moderation demo.
-The community environment has approximately:
+These are the r/accelerate figures for the environment Optimist Prime has to handle:
 
 | Measure | Scale |
 | --- | ---: |
@@ -19,16 +20,15 @@ The community environment has approximately:
 | Published comments, last 12 months | ~508,000 |
 | Published posts, last 12 months | ~19,500 |
 
-That scale informs the platform's emphasis on feature gates, rate limits, duplicate-action prevention, auditability, and conservative controls around moderation actions.
+That is why the bot has feature switches, limits on AI calls, duplicate-action prevention, audit logs, and moderator actions that can be reviewed or turned off.
 
 ## What it does today
 
-- **AI-assisted moderation:** evaluates content through discrete, configurable rules; produces contextual moderator alerts; and supports logging, reporting, removal, and modmail actions.
-- **Community intelligence:** generates post and comment TLDRs, thread digests, and summaries for linked Reddit posts.
-- **Conversation and participation:** handles direct replies and summons, recognizes contributors, and manages opt-in acceleration flairs.
-- **Community operations:** provides troll early-warning signals, curated crossposts, a local settings UI, diagnostics, and a live statistics dashboard.
+- **For moderators:** checks content against configurable rules, sends alerts with context, and can log, report, remove, or send modmail when those actions are explicitly enabled.
+- **For readers and posters:** writes post and comment TLDRs, creates discussion summaries, and responds when people reply to or summon it.
+- **For community operations:** supports contributor and acceleration flairs, early-warning signals, curated crossposts, diagnostics, and the live stats dashboard.
 
-See [FEATURES.md](FEATURES.md) for the complete user- and moderator-facing capability overview.
+See [FEATURES.md](FEATURES.md) for the full feature list.
 
 ## AI architecture and safeguards
 
