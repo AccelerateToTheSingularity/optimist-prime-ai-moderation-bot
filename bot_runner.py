@@ -11,6 +11,7 @@ Runs a single check cycle for r/accelerate:
 import os
 import sys
 import json
+import re
 import argparse
 from datetime import datetime, date, timezone
 
@@ -56,6 +57,13 @@ from ban_handler import check_and_ban_negative_karma_users
 from crosspost_handler import check_and_crosspost
 from bot_comment_format import format_bot_comment
 from acceleration_handler import refresh_opted_in_users, process_scan_queue
+
+
+# Compiled regex patterns for markdown handling
+RE_BOLD = re.compile(r'\*\*([^*]+)\*\*')
+RE_ITALIC = re.compile(r'\*([^*]+)\*')
+RE_CODE = re.compile(r'`([^`]+)`')
+RE_LINK = re.compile(r'\[([^\]]+)\]\([^)]+\)')
 
 
 def load_state(state_file: str = "data/bot_state.json") -> dict:
@@ -121,14 +129,13 @@ def update_stats(stats_file: str = "data/stats.json", tldrs_generated: int = 0, 
 
 def count_words(text: str) -> int:
     """Count words in text, handling markdown."""
-    import re
     if not text:
         return 0
     # Remove markdown
-    text = re.sub(r'\*\*([^*]+)\*\*', r'\1', text)  # Bold
-    text = re.sub(r'\*([^*]+)\*', r'\1', text)      # Italic
-    text = re.sub(r'`([^`]+)`', r'\1', text)        # Code
-    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)  # Links
+    text = RE_BOLD.sub(r'\1', text)  # Bold
+    text = RE_ITALIC.sub(r'\1', text)      # Italic
+    text = RE_CODE.sub(r'\1', text)        # Code
+    text = RE_LINK.sub(r'\1', text)  # Links
     return len(text.split())
 
 
