@@ -22,6 +22,8 @@ from config import (
     ACCELERATION_AUTOBAN_THRESHOLD,
 )
 
+PRO_AI_SUBS_LOWER = {sub.lower() for sub in ACCELERATION_PRO_AI_SUBS}
+
 
 def calculate_pro_ai_karma(redditor, reddit, scan_limit: int = None) -> tuple[int, int]:
     """
@@ -42,7 +44,6 @@ def calculate_pro_ai_karma(redditor, reddit, scan_limit: int = None) -> tuple[in
     pro_ai_karma = 0
     total_karma = 0
     items_scanned = 0
-    pro_ai_subs_lower = {sub.lower() for sub in ACCELERATION_PRO_AI_SUBS}
     
     # Only count items from last year
     one_year_ago = datetime.now(timezone.utc).timestamp() - (365 * 24 * 3600)
@@ -59,7 +60,7 @@ def calculate_pro_ai_karma(redditor, reddit, scan_limit: int = None) -> tuple[in
             
             sub_name = comment.subreddit.display_name.lower()
             total_karma += comment.score
-            if sub_name in pro_ai_subs_lower:
+            if sub_name in PRO_AI_SUBS_LOWER:
                 pro_ai_karma += comment.score
             items_scanned += 1
         
@@ -75,7 +76,7 @@ def calculate_pro_ai_karma(redditor, reddit, scan_limit: int = None) -> tuple[in
             
             sub_name = submission.subreddit.display_name.lower()
             total_karma += submission.score
-            if sub_name in pro_ai_subs_lower:
+            if sub_name in PRO_AI_SUBS_LOWER:
                 pro_ai_karma += submission.score
             items_scanned += 1
     
