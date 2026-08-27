@@ -60,17 +60,6 @@ def check_and_ban_negative_karma_users(
     
     print(f"  📋 Found {len(users_to_ban)} user(s) to ban: {', '.join(users_to_ban)}")
     
-    # Fetch ban list once to avoid N+1 API calls
-    current_banned_users = set()
-    if not dry_run:
-        try:
-            print("  🔍 Fetching current ban list...")
-            for banned_user in subreddit.banned(limit=None):
-                if hasattr(banned_user, 'name') and banned_user.name:
-                    current_banned_users.add(banned_user.name.lower())
-        except Exception as e:
-            print(f"  ⚠️ Could not fetch ban list: {e}")
-
     # Ban collected users
     for username in users_to_ban:
         if dry_run:
@@ -80,12 +69,6 @@ def check_and_ban_negative_karma_users(
             continue
         
         try:
-            # Check if already banned (avoid errors)
-            if username.lower() in current_banned_users:
-                print(f"     ⏭️ u/{username} already banned, skipping")
-                already_banned.add(username)
-                continue
-            
             # Perform the ban
             subreddit.banned.add(
                 username,
