@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimist Prime Bot - Stats Dashboard</title>
+    <meta name="description" content="Live statistics dashboard for the Optimist Prime bot on r/accelerate">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f14;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #24242f;
+            --border: #3a3a4a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b8;
+            --text-muted: #70708a;
+            --accent: #818cf8;
+            --accent-bright: #a5b4fc;
+            --accent-glow: rgba(129, 140, 248, 0.3);
+            --success: #4ade80;
+            --success-glow: rgba(74, 222, 128, 0.3);
+            --warning: #fbbf24;
+            --purple: #c084fc;
+            --pink: #f472b6;
+            --cyan: #22d3ee;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2.5rem;
+            font-size: 16px;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(ellipse at top, rgba(129, 140, 248, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(192, 132, 252, 0.1) 0%, transparent 50%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-bright), var(--purple), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            font-weight: 400;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--purple));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            background: var(--bg-card-hover);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 500;
+        }
+        
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.25rem;
+        }
+        
+        .tier-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid;
+            border-radius: 14px;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .tier-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .tier-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tier-count {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .tier-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+        
+        .crosspost-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .crosspost-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: background 0.2s ease;
+        }
+        
+        .crosspost-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+        }
+        
+        .crosspost-title {
+            color: var(--accent-bright);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            display: block;
+            margin-bottom: 0.6rem;
+            line-height: 1.4;
+        }
+        
+        .crosspost-title:hover {
+            text-decoration: underline;
+        }
+        
+        .crosspost-meta {
+            display: flex;
+            gap: 1.25rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .crosspost-score {
+            color: var(--success);
+            font-weight: 500;
+        }
+        
+        .status-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 12px var(--success-glow);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 12px var(--success-glow); }
+            50% { opacity: 0.6; box-shadow: 0 0 20px var(--success-glow); }
+        }
+        
+        .status-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .last-run {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        footer a {
+            color: var(--accent-bright);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        footer a:hover {
+            color: var(--purple);
+        }
+        
+        .footer-links {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links span {
+            margin: 0 0.6rem;
+            color: var(--text-muted);
+        }
+        
+        .generated-time {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🤖</div>
+            <h1>Optimist Prime</h1>
+            <p class="subtitle">Bot Statistics for r/accelerate</p>
+        </header>
+        
+        <div class="status-bar">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span class="status-text">Bot Active</span>
+            </div>
+            <div class="last-run">
+                Last run: 2026-06-21 09:51 UTC
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-value">332</div>
+                <div class="stat-label">TLDRs Generated</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value">9,827</div>
+                <div class="stat-label">Posts Processed</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">💬</div>
+                <div class="stat-value">144</div>
+                <div class="stat-label">Long Comments</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🗣️</div>
+                <div class="stat-value">133</div>
+                <div class="stat-label">Replies Sent</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📢</div>
+                <div class="stat-value">40</div>
+                <div class="stat-label">Summons Handled</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🔄</div>
+                <div class="stat-value">46</div>
+                <div class="stat-label">Crossposts Made</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🚀</div>
+                <div class="stat-value">18</div>
+                <div class="stat-label">Flair Users</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value">2,000</div>
+                <div class="stat-label">Users Scanned</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🔁</div>
+                <div class="stat-value">9,827</div>
+                <div class="stat-label">Bot Runs</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🪙</div>
+                <div class="stat-value">1.0M</div>
+                <div class="stat-label">Tokens Used</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value">$0.1325</div>
+                <div class="stat-label">API Cost</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value">48.9K</div>
+                <div class="stat-label">Top Accelerator Score</div>
+            </div>
+        </div>
+        
+        
+            <div class="section">
+                <h2>🚀 Acceleration Flair Breakdown</h2>
+                <div class="tier-grid">
+        
+                    <div class="tier-card" style="border-color: #bfdbfe">
+                        <div class="tier-name" style="color: #bfdbfe">Light-speed</div>
+                        <div class="tier-count">5</div>
+                        <div class="tier-label">users</div>
+                    </div>
+                
+                    <div class="tier-card" style="border-color: #fef08a">
+                        <div class="tier-name" style="color: #fef08a">Hypersonic</div>
+                        <div class="tier-count">1</div>
+                        <div class="tier-label">users</div>
+                    </div>
+                
+                    <div class="tier-card" style="border-color: #facc15">
+                        <div class="tier-name" style="color: #facc15">Supersonic</div>
+                        <div class="tier-count">2</div>
+                        <div class="tier-label">users</div>
+                    </div>
+                
+                    <div class="tier-card" style="border-color: #f97316">
+                        <div class="tier-name" style="color: #f97316">Speeding</div>
+                        <div class="tier-count">2</div>
+                        <div class="tier-label">users</div>
+                    </div>
+                
+                    <div class="tier-card" style="border-color: #dc2626">
+                        <div class="tier-name" style="color: #dc2626">Cruising</div>
+                        <div class="tier-count">4</div>
+                        <div class="tier-label">users</div>
+                    </div>
+                
+                    <div class="tier-card" style="border-color: #8b0000">
+                        <div class="tier-name" style="color: #8b0000">Crawling</div>
+                        <div class="tier-count">3</div>
+                        <div class="tier-label">users</div>
+                    </div>
+                
+                </div>
+            </div>
+        
+        
+        
+            <div class="section">
+                <h2>🔗 Recent Crossposts to r/ProAI</h2>
+                <div class="crosspost-list">
+        
+                    <div class="crosspost-item">
+                        <a href="https://reddit.com/r/ProAI/comments/1rjbtyb/some_researchers_at_openai_appear_to_be_unhappy/" target="_blank" class="crosspost-title">Some researchers at OpenAI appear to be unhappy with the agr...</a>
+                        <div class="crosspost-meta">
+                            <span class="crosspost-score">⬆ 145</span>
+                            <span class="crosspost-date">2026-03-03</span>
+                        </div>
+                    </div>
+            
+                    <div class="crosspost-item">
+                        <a href="https://reddit.com/r/ProAI/comments/1rifa4y/the_goalposts_for_agi_have_been_moved_to_einstein/" target="_blank" class="crosspost-title">The goalposts for AGI have been moved to Einstein</a>
+                        <div class="crosspost-meta">
+                            <span class="crosspost-score">⬆ 247</span>
+                            <span class="crosspost-date">2026-03-02</span>
+                        </div>
+                    </div>
+            
+                    <div class="crosspost-item">
+                        <a href="https://reddit.com/r/ProAI/comments/1rhnm54/ai_takeover_complete_data_center_construction/" target="_blank" class="crosspost-title">It got lost in the news firehose, but this is the craziest c...</a>
+                        <div class="crosspost-meta">
+                            <span class="crosspost-score">⬆ 230</span>
+                            <span class="crosspost-date">2026-03-01</span>
+                        </div>
+                    </div>
+            
+                    <div class="crosspost-item">
+                        <a href="https://reddit.com/r/ProAI/comments/1rgtqbb/sam_altman_says_openai_shares_anthropics_red/" target="_blank" class="crosspost-title">Sam Altman says OpenAI shares Anthropic's red lines in Penta...</a>
+                        <div class="crosspost-meta">
+                            <span class="crosspost-score">⬆ 170</span>
+                            <span class="crosspost-date">2026-02-28</span>
+                        </div>
+                    </div>
+            
+                    <div class="crosspost-item">
+                        <a href="https://reddit.com/r/ProAI/comments/1rezd4m/chinese_researchers_have_found_the_cause_of/" target="_blank" class="crosspost-title">Chinese researchers have found the cause of hallucinations i...</a>
+                        <div class="crosspost-meta">
+                            <span class="crosspost-score">⬆ 452</span>
+                            <span class="crosspost-date">2026-02-26</span>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+        
+        <footer>
+            <div class="footer-links">
+                <a href="https://github.com/features/actions">GitHub Actions</a>
+                <span>•</span>
+                <a href="https://ai.google.dev/">Google Gemini</a>
+                <span>•</span>
+                <a href="https://reddit.com/r/accelerate">r/accelerate</a>
+                <span>•</span>
+                <a href="https://reddit.com/r/ProAI">r/ProAI</a>
+            </div>
+            <p class="generated-time">
+                Page generated: 2026-09-05 17:05 UTC
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
