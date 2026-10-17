@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "subreddit": "",
+  "fetched_at": null,
+  "source_urls": {},
+  "reddit_revision": null,
+  "official_community_rules": [],
+  "reddit_wide_categories": [],
+  "moderator_guidance": [],
+  "moderation_model": {
+    "description": "No community-specific rules or moderator guidance are included in this public example."
+  },
+  "content_fingerprint": "sha256:7bc532e790ee2d1ab85c22d594eee56e93f01289b58b8ed8ef98c08c67d9f4ca"
+}

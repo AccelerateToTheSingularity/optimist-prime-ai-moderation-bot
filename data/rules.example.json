@@ -1,0 +1,38 @@
+[
+  {
+    "name": "example_repeated_spam",
+    "description": "Repeated unsolicited promotional or deceptive content.",
+    "active": false,
+    "order": 10,
+    "target": "both",
+    "actions": [],
+    "community_rule_ids": [],
+    "conditions": {
+      "stop_on_match": true
+    }
+  },
+  {
+    "name": "example_targeted_harassment",
+    "description": "Clear, targeted abusive or threatening language.",
+    "active": false,
+    "order": 20,
+    "target": "both",
+    "actions": [],
+    "community_rule_ids": [],
+    "conditions": {
+      "stop_on_match": true
+    }
+  },
+  {
+    "name": "example_private_information",
+    "description": "Sharing another person's non-public identifying information without consent.",
+    "active": false,
+    "order": 30,
+    "target": "both",
+    "actions": [],
+    "community_rule_ids": [],
+    "conditions": {
+      "stop_on_match": true
+    }
+  }
+]

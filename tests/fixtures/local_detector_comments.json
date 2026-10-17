@@ -1,0 +1,65 @@
+[
+  {
+    "id": "example_rule_one_positive_one",
+    "gate": "example_rule_one",
+    "text": "Synthetic fixture content for the positive one case of example_rule_one.",
+    "expected": true,
+    "provenance": "synthetic"
+  },
+  {
+    "id": "example_rule_one_positive_two",
+    "gate": "example_rule_one",
+    "text": "Synthetic fixture content for the positive two case of example_rule_one.",
+    "expected": true,
+    "provenance": "synthetic"
+  },
+  {
+    "id": "example_rule_one_negative",
+    "gate": "example_rule_one",
+    "text": "Synthetic fixture content for the negative case of example_rule_one.",
+    "expected": false,
+    "provenance": "synthetic"
+  },
+  {
+    "id": "example_rule_two_positive_one",
+    "gate": "example_rule_two",
+    "text": "Synthetic fixture content for the positive one case of example_rule_two.",
+    "expected": true,
+    "provenance": "synthetic"
+  },
+  {
+    "id": "example_rule_two_positive_two",
+    "gate": "example_rule_two",
+    "text": "Synthetic fixture content for the positive two case of example_rule_two.",
+    "expected": true,
+    "provenance": "synthetic"
+  },
+  {
+    "id": "example_rule_two_negative",
+    "gate": "example_rule_two",
+    "text": "Synthetic fixture content for the negative case of example_rule_two.",
+    "expected": false,
+    "provenance": "synthetic"
+  },
+  {
+    "id": "example_rule_three_positive_one",
+    "gate": "example_rule_three",
+    "text": "Synthetic fixture content for the positive one case of example_rule_three.",
+    "expected": true,
+    "provenance": "synthetic"
+  },
+  {
+    "id": "example_rule_three_positive_two",
+    "gate": "example_rule_three",
+    "text": "Synthetic fixture content for the positive two case of example_rule_three.",
+    "expected": true,
+    "provenance": "synthetic"
+  },
+  {
+    "id": "example_rule_three_negative",
+    "gate": "example_rule_three",
+    "text": "Synthetic fixture content for the negative case of example_rule_three.",
+    "expected": false,
+    "provenance": "synthetic"
+  }
+]

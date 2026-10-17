@@ -1,0 +1,58 @@
+# Runtime data
+data/bot_state.json
+data/bot_state.enc
+data/bot_state.json.cycle.lock
+data/bot_state.enc.cycle.lock
+data/stats.json
+docs/index.html
+data/activity.json
+data/cycle_summary.json
+data/audit_log.json
+data/rules.json
+data/history_criteria.json
+data/community_rules.reference.json
+data/settings_gui_prefs.json
+data/reddit_request_budget.sqlite3
+data/reddit_request_budget.sqlite3-*
+data/history_review_ledger.sqlite3*
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+id_ecdsa
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.pytest_cache/
+*.egg-info/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Optional runtime directory when configured inside the checkout
+runtime/
+
+# Local tool configuration (never needed by collaborators)
+opencode.json
